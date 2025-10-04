@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+html {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  /* background-image: url("../../public/noise.png"); */
+  /* background-size: 350px 350px; */
+  /* background-position: 0 0; */
+	/* background-color: rgb(247, 247, 247); */
+	/* background-color: rgb(20, 20, 20); */
+}
+
+/* globals.css */
