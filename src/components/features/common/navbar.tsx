@@ -23,10 +23,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { useTheme } from "../../../hooks/use-theme";
+import { useTheme } from "@/context/theme/use-theme";
 import { Moon, Sun } from "lucide-react";
 import type {MenuItem, User} from '@/types/ui/navbar' ;
 import { useNavigate, Link } from "react-router-dom";
+import { useLogout } from "@/context/auth/use-logout";
 
 
 
@@ -114,10 +115,11 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
   profileLinks: MenuItem[]
   signInText?: string
   signInHref?: string
+  onSignInClick?: () => void
   ctaText?: string
   ctaHref?: string
-  onSignInClick?: () => void
-  onCtaClick?: () => void
+  onCtaClick?: () => void,
+  showCta?: boolean,
   user?: User | null
 
 }
@@ -138,7 +140,7 @@ function MobileNav({ links }: { links: MenuItem[] }) {
           <HamburgerIcon />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-48 p-2">
+      <PopoverContent align="start" className="w-fit p-2">
         <NavigationMenu className="max-w-none">
           <NavigationMenuList className="flex-col items-start gap-1">
             {links.map((link, index) => (
@@ -199,7 +201,7 @@ function DesktopNav({ links }: { links: MenuItem[] }) {
 // Theme Toggle
 // -------------------
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const {setTheme } = useTheme();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -239,6 +241,7 @@ function UserMenu(
 }
 ) {
   const navigate = useNavigate();
+  const logout = useLogout();
   if (!user) return null;
 
   const fullName = `${user.firstName} ${user.lastName}`;
@@ -269,11 +272,22 @@ function UserMenu(
                 </DropdownMenuItem>
               )
             }
+            else if(profileLink.type === 'button'){
+              return (
+                <DropdownMenuItem onClick={profileLink.action} key={index} className="cursor-pointer">
+                  {profileLink.title}
+                </DropdownMenuItem>
+              )
+            }
             else{
               return null;
             }
           })
         }
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => logout.mutate()} className="cursor-pointer">
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
@@ -289,12 +303,14 @@ function NavbarActions({
   onSignInClick,
   onCtaClick,
   user,
-  profileLinks
+  profileLinks,
+  showCta = false
 }: {
   signInText: string
-  ctaText: string
   onSignInClick?: () => void
-  onCtaClick?: () => void
+  ctaText: string
+  onCtaClick?: () => void,
+  showCta?: boolean,
   user?: NavbarProps["user"]
   profileLinks: MenuItem[]
 }) {
@@ -316,17 +332,20 @@ function NavbarActions({
           >
             {signInText}
           </Button>
-          <Button
-            size="sm"
-            className="text-sm font-medium px-4 h-9 rounded-md shadow-sm cursor-pointer"
-            
-            onClick={(e) => {
-              e.preventDefault()
-              onCtaClick?.()
-            }}
-          >
-            {ctaText}
-          </Button>
+          {
+            showCta? (
+              <Button
+                size="sm"
+                className="text-sm font-medium px-4 h-9 rounded-md shadow-sm cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  onCtaClick?.()
+                }}
+              >
+                {ctaText}
+              </Button>
+            ) : null
+          }
         </>
       )}
     </div>
@@ -341,8 +360,9 @@ export default function Navbar({
   logo = <Logo />,
   navigationLinks,
   signInText = "Sign In",
-  ctaText = "Contribute",
   onSignInClick,
+  showCta = false,
+  ctaText = "Contribute",
   onCtaClick,
   user = null,
   profileLinks,
@@ -369,7 +389,7 @@ export default function Navbar({
     <header
       ref={containerRef}
       className={cn(
-        "sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 py-4 md:px-6 [&_*]:no-underline",
+        "sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 py-1 md:px-6 [&_*]:no-underline",
         className
       )}
       {...props}
@@ -402,6 +422,7 @@ export default function Navbar({
             onCtaClick={onCtaClick}
             user={user}
             profileLinks={profileLinks}
+            showCta = {showCta}
           />
         </div>
       </div>

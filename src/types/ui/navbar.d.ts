@@ -18,6 +18,11 @@ export interface TriggerMenuItem extends BaseMenuItem {
   }[]
 }
 
+export interface ButtonMenuItem extends BaseMenuItem {
+  type: "button"
+  action: () => void
+}
+
 export type User = {
   firstName: string
   lastName: string
@@ -26,4 +31,4 @@ export type User = {
 }
 
 
-export type MenuItem = LinkMenuItem | TriggerMenuItem;
+export type MenuItem = LinkMenuItem | TriggerMenuItem | ButtonMenuItem;

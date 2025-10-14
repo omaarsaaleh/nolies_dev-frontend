@@ -1,4 +1,4 @@
-import type { MenuItem, User } from "@/types/ui/navbar"
+import type { MenuItem, User } from "@/types/ui/navbar";
 
 
 export const menuItems: MenuItem[] = [
@@ -35,11 +35,6 @@ export const profileLinks: MenuItem[] = [
     to: "/settings",
     type: "link",
     title: "Settings"
-  },
-  {
-    to: "/logout",
-    type: "link",
-    title: "Log out"
   }
 ]
 

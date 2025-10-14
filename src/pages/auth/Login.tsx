@@ -16,8 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {Link} from 'react-router-dom';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
-import { useNavigate } from "react-router-dom";
+import {useMutation} from '@tanstack/react-query';
 import {
   Form,
   FormField,
@@ -28,10 +27,12 @@ import {
   addErrors
 } from "@/components/ui/form";
 import {ValidationError, AuthenticationError} from "@/api/errors";
+import { useUser } from "@/context/auth/use-user";
 
 export default function Login(){
   const [formError, setFormError] = useState<string>("");
-  
+
+  const {refetchUser} = useUser();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -40,16 +41,13 @@ export default function Login(){
     },
   });
 
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
   const loginMutation = useMutation({
     mutationFn: async (values: LoginFormData) => {
       return login(values);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["me"] });
-      navigate('/');
+      await refetchUser();
+      // parent route will handle redirect
     },
     onError: (error) => {
       setFormError(""); 
@@ -108,12 +106,12 @@ export default function Login(){
                   <FormItem>
                     <div className="flex items-center">
                       <FormLabel className="text-md">Password</FormLabel>
-                      <a
-                        href="#"
+                      <Link
+                        to='/forget-password'
                         className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                       >
                         Forgot your password?
-                      </a>
+                      </Link>
                     </div>
                     <FormControl>
                       <Input 

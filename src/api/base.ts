@@ -143,11 +143,14 @@ authenticatedApi.interceptors.response.use(
     if (!error.response) return Promise.reject(error);
 
     const data = error.response.data;
-    const isTokenExpired = data && isErrorPayload(data) && data.code === "AUTHENTICATION_ERROR";
+    const isTokenExpired = 
+      data && 
+      isErrorPayload(data) && 
+      data.code === "AUTHENTICATION_ERROR" && 
+      document.cookie.includes('logged=');
 
     if (isTokenExpired && !originalRequest._retry) {
       originalRequest._retry = true;
-
       if (isRefreshing) {
         return enqueueRequest((newAccess: string | null) => {
           originalRequest.headers = originalRequest.headers || {};
@@ -181,7 +184,7 @@ authenticatedApi.interceptors.response.use(
         processQueue(refreshErr, null);
         
         try {
-          await unauthenticatedApi.post("/auth/logout");
+          await unauthenticatedApi.post("/auth/logout/");
         } catch {
           // Ignore logout errors
         } finally {

@@ -16,7 +16,7 @@ import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="dark" storageKey="theme">
@@ -26,5 +26,5 @@ createRoot(document.getElementById('root')!).render(
         </ThemeProvider>
       </QueryClientProvider>
     </BrowserRouter>
-  </StrictMode>,
+  // </StrictMode>,
 );
