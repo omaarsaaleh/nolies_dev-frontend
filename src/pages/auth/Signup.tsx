@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import {
   Card,
   CardContent,
@@ -27,11 +26,12 @@ import {registerSchema, type RegisterFormData} from '@/types/api/auth';
 import {register} from "@/api/auth.ts";
 import {ValidationError} from "@/api/errors";
 import { useMutation } from "@tanstack/react-query"
+import { useUser } from "@/context/auth/use-user";
 
 
 export default function Signup() {
   const [formError, setFormError] = useState<string>("");
-  const navigate = useNavigate();
+  const {refetchUser} = useUser();
   
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -49,8 +49,8 @@ export default function Signup() {
     mutationFn: async (values: RegisterFormData) => {
       return register(values);
     },
-    onSuccess: () => {
-      navigate('/verify-account');
+    onSuccess: async () => {
+      await refetchUser();
     },
     onError: (error) => {
       setFormError("");

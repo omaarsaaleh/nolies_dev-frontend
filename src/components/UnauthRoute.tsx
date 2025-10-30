@@ -20,6 +20,8 @@ export function UnauthRoute() {
     if (redirectTo) {
       return <Navigate to={redirectTo} replace />;
     }
+    if(!user.is_verified)
+      return <Navigate to="/verify-account" replace />;
     return <Navigate to="/" replace />;
   }
   // else can access

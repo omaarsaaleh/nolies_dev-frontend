@@ -1,0 +1,17 @@
+[
+    {
+        "id": 3,
+        "name": "Sponsorship",
+        "slug": "sponsorship"
+    },
+    {
+        "id": 1,
+        "name": "Internships",
+        "slug": "internships"
+    },
+    {
+        "id": 2,
+        "name": "Remote Work",
+        "slug": "remote-work"
+    }
+]

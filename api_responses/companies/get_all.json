@@ -1,0 +1,44 @@
+/*
+Query Parameters:
+
+-search: Search by name
+
+
+- technologies: Filter by technology IDs (comma-separated, OR logic by default)
+- technology_op: 'OR' (default) or 'AND' for technology filtering
+
+
+- domains: Filter by domain IDs (comma-separated, OR logic by default)
+- domain_op: 'OR' (default) or 'AND' for domain filtering
+- benefits: Filter by benefit IDs (comma-separated, OR logic by default)
+- benefit_op: 'OR' (default) or 'AND' for benefit filtering
+- page: Int 1-based
+
+# only one should be provided if more than one is provided, the endpoint precedence is: city > state > country
+- city: Filter by city ID
+- state: Filter by state ID  
+- country: Filter by country ID
+*/
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "slug": "paymob",
+            "name": "Paymob",
+            "logo_url": "https://www.ampeco.com/content/uploads/2024/08/paymob-logo-1-300x300.png",
+            "domains": [
+                {
+                    "id": 1,
+                    "name": "Fintech",
+                    "slug": "fintech",
+                    "image_url": null
+                }
+            ],
+            "reviewers_count": 0,
+            "average_rating": 0.0
+        }
+    ]
+}

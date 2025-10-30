@@ -1,0 +1,14 @@
+[
+    {
+        "id": 2,
+        "name": "Foodtech",
+        "slug": "foodtech",
+        "image_url": null
+    },
+    {
+        "id": 1,
+        "name": "Fintech",
+        "slug": "fintech",
+        "image_url": null
+    }
+]

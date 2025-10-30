@@ -1,0 +1,13 @@
+/*
+Query Parameters:
+- state: Filter by state ID
+*/
+[
+    {
+        "id": 1,
+        "name": "Maadi",
+        "slug": "maadi",
+        "image_url": "https://www.propertyfinder.eg/blog/wp-content/uploads/2017/12/9f1d7c5a-1903-4834-b8a3-d805c1ad978f-3.jpg",
+        "state": 1
+    }
+]

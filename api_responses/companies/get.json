@@ -1,0 +1,118 @@
+// /companies/<slug>
+{
+    "id": 1,
+    "name": "Paymob",
+    "slug": "paymob",
+    "logo_url": "https://www.ampeco.com/content/uploads/2024/08/paymob-logo-1-300x300.png",
+    "website_url": "https://paymob.com/",
+    "description": "A financial technology company that provides a comprehensive payments infrastructure for businesses to accept and make digital payments. It offers solutions for various needs, including processing online and in-store payments, enabling mobile payments via apps, and providing services like payment links and digital wallets. The company serves both large corporations and small to medium-sized enterprises (SMEs) in the Middle East and North Africa (MENA) region and is known for supporting a wide range of payment methods.",
+    "benefits": [
+        {
+            "id": 1,
+            "name": "Internships",
+            "slug": "internships"
+        },
+        {
+            "id": 2,
+            "name": "Remote Work",
+            "slug": "remote-work"
+        }
+    ],
+    "domains": [
+        {
+            "id": 1,
+            "name": "Fintech",
+            "slug": "fintech",
+            "image_url": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+        }
+    ],
+    "locations": [
+        {
+            "id": 1,
+            "google_maps_url": "https://www.google.com/maps/place/Paymob/@29.9694466,31.2746164,17z/data=!3m1!4b1!4m6!3m5!1s0x145840c7921087eb:0x48e9ebcdc3e2905d!8m2!3d29.969442!4d31.2771913!16s%2Fg%2F11g8yb1b_7",
+            "is_certain": true,
+            "city": {
+                "id": 1,
+                "name": "Maadi",
+                "state": {
+                    "id": 1,
+                    "name": "Cairo",
+                    "country": {
+                        "id": 1,
+                        "name": "Egypt",
+                        "slug": "egypt",
+                        "image_url": null
+                    },
+                    "slug": "cairo",
+                    "image_url": null
+                },
+                "slug": "maadi",
+                "image_url": "https://www.propertyfinder.eg/blog/wp-content/uploads/2017/12/9f1d7c5a-1903-4834-b8a3-d805c1ad978f-3.jpg"
+            },
+            "street": "Street 263",
+            "building": "7H"
+        }
+    ],
+    "technologies": [
+        {
+            "id": 2,
+            "name": "PostgreSQL",
+            "category": {
+                "id": 4,
+                "name": "Data",
+                "slug": "data"
+            },
+            "slug": "postgresql",
+            "description": null,
+            "documentation_url": null,
+            "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+        },
+        {
+            "id": 1,
+            "name": "Django",
+            "category": {
+                "id": 2,
+                "name": "Backend",
+                "slug": "backend"
+            },
+            "slug": "django",
+            "description": null,
+            "documentation_url": null,
+            "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+        },
+        {
+            "id": 3,
+            "name": "MySQL",
+            "category": {
+                "id": 4,
+                "name": "Data",
+                "slug": "data"
+            },
+            "slug": "mysql",
+            "description": null,
+            "documentation_url": null,
+            "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+        },
+        {
+            "id": 4,
+            "name": "Docker",
+            "category": {
+                "id": 5,
+                "name": "DevOps",
+                "slug": "devops"
+            },
+            "slug": "docker",
+            "description": null,
+            "documentation_url": null,
+            "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+        }
+    ],
+    "mail_domains": [
+        {
+            "id": 1,
+            "domain": "paymob.com"
+        }
+    ],
+    "reviewers_count": 0,
+    "average_rating": 0.0
+}

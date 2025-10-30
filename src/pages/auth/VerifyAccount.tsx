@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useEffect, useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "@/components/ui/input-otp"
@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useLogout } from "@/context/auth/use-logout"
 import { RateLimitError, ValidationError, VerificationError } from "@/api/errors"
 import { OTP_LENGTH, OTP_RESEND_COOLDOWN } from "@/constants/api/auth"
+import { useUser } from "@/context/auth/use-user"
 
 const otpSchema = z.object({
   otp: z
@@ -27,7 +28,7 @@ type OtpFormData = z.infer<typeof otpSchema>;
 
 export default function VerifyAccount() {
   const [formError, setFormError] = useState<string>("");
-  const navigate = useNavigate();
+  const {refetchUser} = useUser();
   const [searchParams] = useSearchParams();
   const isJustSent = searchParams.get("justSent")?.toLowerCase() === "true";
   const [resendCooldown, setResendCooldown] = useState<number>(isJustSent ? OTP_RESEND_COOLDOWN : 0);
@@ -59,8 +60,8 @@ export default function VerifyAccount() {
 
   const verifyMutation = useMutation({
     mutationFn: async (values: OtpFormData) => verifyAccount(values.otp),
-    onSuccess: () => {
-      navigate("/");
+    onSuccess: async () => {
+      await refetchUser();
     },
     onError: (error) => {
       setFormError("");

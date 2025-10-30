@@ -30,7 +30,7 @@ export default function Page({
   
 
   return (
-    <div className={cn("min-h-screen flex flex-col", className)} {...props}>
+    <div className={cn("min-h-screen flex flex-col ", className)} {...props}>
       <Navbar
         navigationLinks={defaultNavigationLinks}
         profileLinks={defaultProfileLinks}
@@ -41,8 +41,13 @@ export default function Page({
       />
 
       <main className={cn("flex-1", contentClassName)}>
-        <div className="container mx-auto max-w-screen-2xl px-4 md:px-6 py-3 md:py-8">
-          {children}
+      <div className="
+      container 
+      mx-auto 
+      max-w-screen-lg 
+      py-6 
+      md:py-12">
+      {children}
         </div>
       </main>
     </div>

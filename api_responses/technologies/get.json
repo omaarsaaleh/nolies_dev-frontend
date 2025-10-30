@@ -1,0 +1,13 @@
+{
+    "id": 1,
+    "name": "Django",
+    "category": {
+        "id": 2,
+        "name": "Backend",
+        "slug": "backend"
+    },
+    "slug": "django",
+    "description": null,
+    "documentation_url": null,
+    "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+}

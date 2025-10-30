@@ -1,0 +1,30 @@
+[
+    {
+        "id": 2,
+        "name": "PostgreSQL",
+        "category": "data",
+        "slug": "postgresql",
+        "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+    },
+    {
+        "id": 1,
+        "name": "Django",
+        "category": "backend",
+        "slug": "django",
+        "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+    },
+    {
+        "id": 3,
+        "name": "MySQL",
+        "category": "data",
+        "slug": "mysql",
+        "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+    },
+    {
+        "id": 4,
+        "name": "Docker",
+        "category": "devops",
+        "slug": "docker",
+        "logo_url": "https://e7.pngegg.com/pngimages/10/113/png-clipart-django-web-development-web-framework-python-software-framework-django-text-trademark.png"
+    }
+]

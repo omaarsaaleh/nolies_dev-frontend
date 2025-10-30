@@ -1,0 +1,13 @@
+/*
+Query Parameters:
+- country: Filter by country ID
+*/
+[
+    {
+        "id": 1,
+        "name": "Cairo",
+        "country": 1,
+        "slug": "cairo",
+        "image_url": null
+    }
+]
