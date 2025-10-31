@@ -8,6 +8,7 @@ import ResetPassword from '@/pages/auth/ResetPassword';
 import Home from '@/pages/Home'
 import Profile from '@/pages/Profile'
 import CompanySearch from '@/pages/CompanySearch'
+import CompanyPage from '@/pages/CompanyPage'
 import { AuthProtectedRoute } from "@/components/AuthProtectedRoute"
 import { UnauthRoute } from "@/components/UnauthRoute"
 import { Toaster } from "@/components/ui/sonner"
@@ -27,6 +28,7 @@ export default function App() {
         {/* public */}
         <Route path='/' element={<Home />}></Route>
         <Route path='/companies' element={<CompanySearch />}></Route>
+        <Route path='/companies/:slug' element={<CompanyPage />}></Route>
 
         
         <Route element={<AuthProtectedRoute />}>

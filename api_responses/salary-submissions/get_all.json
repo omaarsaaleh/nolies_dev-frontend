@@ -1,0 +1,41 @@
+/*
+/salary-submissions/
+query params
+- company: slug -> return only that company salary submissions
+- profile_view: bool -> only if authenticated if True current user submissions ONLY and company details instead of null
+- page: int
+- page_size: int 
+
+if profile_view == true ->  is_current_user_submission is not returned and company CompanyMinimal returned
+else if profile_view == false -> is_current_user_submission returned, and company is null
+*/
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "is_current_user_submission": true,
+            "work_experience": {
+                "id": 1,
+                "is_verified": true,
+                "job_role": {
+                    "id": 3,
+                    "seniority_level": "Junior",
+                    "job_title": {
+                        "id": 2,
+                        "name": "Penetration Tester"
+                    }
+                },
+                "start_date": "2025-07-01",
+                "end_date": "2025-08-01"
+            },
+            "company": null,
+            "salary": 2000,
+            "currency": "EGP",
+            "created_at": "2025-10-31T09:59:17.465845Z",
+            "updated_at": "2025-10-31T09:59:17.465871Z"
+        }
+    ]
+}

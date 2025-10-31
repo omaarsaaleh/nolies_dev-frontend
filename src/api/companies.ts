@@ -8,7 +8,8 @@ import type {
   StateMinimal, 
   CityMinimal,
   CompanyMinimal,
-  CompanySearchParams
+  CompanySearchParams,
+  CompanyDetail
 } from '@/types/api/companies';
 
 
@@ -85,5 +86,10 @@ export async function getStates(countryId: number): Promise<StateMinimal[]> {
 
 export async function getCities(stateId: number): Promise<CityMinimal[]> {
   const response = await authenticatedApi.get(`/cities/?state=${stateId}`);
+  return response.data;
+}
+
+export async function getCompany(slug: string): Promise<CompanyDetail> {
+  const response = await authenticatedApi.get(`/companies/${slug}/`);
   return response.data;
 }

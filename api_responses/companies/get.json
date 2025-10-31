@@ -23,13 +23,13 @@
             "id": 1,
             "name": "Fintech",
             "slug": "fintech",
-            "image_url": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+            "image_url": null
         }
     ],
     "locations": [
         {
             "id": 1,
-            "google_maps_url": "https://www.google.com/maps/place/Paymob/@29.9694466,31.2746164,17z/data=!3m1!4b1!4m6!3m5!1s0x145840c7921087eb:0x48e9ebcdc3e2905d!8m2!3d29.969442!4d31.2771913!16s%2Fg%2F11g8yb1b_7",
+            "google_maps_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.3474907138334!2d31.277191300000002!3d29.969442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840c7921087eb%3A0x48e9ebcdc3e2905d!2sPaymob!5e0!3m2!1sen!2seg!4v1761912759901!5m2!1sen!2seg",
             "is_certain": true,
             "city": {
                 "id": 1,
@@ -111,6 +111,38 @@
         {
             "id": 1,
             "domain": "paymob.com"
+        }
+    ],
+    "social_links": [
+        {
+            "id": 1,
+            "platform": "facebook",
+            "url": "https://www.facebook.com/PaymobEgypt"
+        },
+        {
+            "id": 2,
+            "platform": "linkedin",
+            "url": "https://www.linkedin.com/company/paymobcompany/"
+        },
+        {
+            "id": 3,
+            "platform": "instagram",
+            "url": "https://www.instagram.com/paymobegypt/"
+        },
+        {
+            "id": 4,
+            "platform": "threads",
+            "url": "https://www.threads.com/@paymobegypt"
+        },
+        {
+            "id": 5,
+            "platform": "x",
+            "url": "https://x.com/paymobcompany"
+        },
+        {
+            "id": 6,
+            "platform": "wuzzuf",
+            "url": "https://wuzzuf.net/jobs/careers/Paymob-Solutions-Egypt-43747"
         }
     ],
     "reviewers_count": 0,
