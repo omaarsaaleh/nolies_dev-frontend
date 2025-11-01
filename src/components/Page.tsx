@@ -41,13 +41,13 @@ export default function Page({
       />
 
       <main className={cn("flex-1", contentClassName)}>
-      <div className="
-      container 
-      mx-auto 
-      max-w-screen-lg 
-      py-6 
-      md:py-12">
-      {children}
+        <div className="
+          container 
+          mx-auto 
+          max-w-screen-lg 
+          px-6 
+          md:py-12">
+          {children}
         </div>
       </main>
     </div>

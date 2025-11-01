@@ -31,7 +31,7 @@ export type CompanyMinimalForReview = {
 
 export type CompanyReview = {
   id: number;
-  work_experience: WorkExperience;
+  work_experience: WorkExperience | null;
   company: CompanyMinimalForReview | null;
   reviewer: Reviewer | null;
   show_employee_details: boolean;

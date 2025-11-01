@@ -27,6 +27,8 @@ export type TechnologyDetail = {
   category: TechnologyCategory;
   slug: string;
   logo_url: string | null;
+  devicon_class_light: string;
+  devicon_class_dark: string;
 };
 
 export type BenefitMinimal  = {
@@ -91,7 +93,7 @@ export type Technology = TechnologyDetail;
 export type Location = {
   id: number;
   google_maps_url: string | null;
-  is_certain: boolean;
+  is_verified: boolean;
   city: {
     id: number;
     name: string;

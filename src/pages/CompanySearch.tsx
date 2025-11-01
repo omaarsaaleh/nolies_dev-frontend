@@ -10,6 +10,8 @@ import { searchCompanies, getTechnologies, getDomains, getBenefits } from "@/api
 import type { CompanySearchParams } from "@/types/api/companies";
 import type { Operator } from "@/types/api/common";
 
+const PAGE_SIZE = 25 ;
+
 export default function CompanySearch() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
@@ -25,6 +27,7 @@ export default function CompanySearch() {
   const [state, setState] = useState<number | null>(null);
   const [city, setCity] = useState<number | null>(null);
   const [page, setPage] = useState(1);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -100,11 +103,12 @@ export default function CompanySearch() {
   }
   const normalizedParams = useMemo(() => normalizeSearchParams(searchParamsObj), [searchParamsObj]);
 
-const { data: searchResults, isLoading, isError } = useQuery({
-  queryKey: ["companies", "search", stableStringify(normalizedParams)],
-  queryFn: () => searchCompanies(normalizedParams),
-  staleTime: 5 * 60 * 1000, // optional caching policy
-});
+  const { data: searchResults, isLoading, isError } = useQuery({
+    queryKey: ["companies", "search", stableStringify(normalizedParams)],
+    queryFn: () => searchCompanies(normalizedParams),
+    staleTime: 5 * 60 * 1000, // optional caching policy
+  });
+  const totalPages = Math.ceil((searchResults?.count || 0) / PAGE_SIZE);
 
   // Update URL when search params change
   useEffect(() => {
@@ -269,9 +273,9 @@ const { data: searchResults, isLoading, isError } = useQuery({
           isSearchResultsLoading={isLoading}
           isSearchResultsError={isError}
           searchResultsCount={searchResults?.count}
-          pageSize={25}
+          totalPages={totalPages}
           currentPage={page}
-          setcurrentPage={setPage}
+          setCurrentPage={setPage}
         />
       </div>
     </Page>

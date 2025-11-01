@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Page from "@/components/Page";
 import { Badge } from "@/components/ui/badge";
@@ -13,32 +13,19 @@ import { getCompanySalaries } from "@/api/salaries";
 import type { CompanyDetail } from "@/types/api/companies";
 import type { CompanyReview } from "@/types/api/reviews";
 import type { SalarySubmission } from "@/types/api/salaries";
-import Pagination from "@/components/Pagination";
-import { Star, Users, Globe, ExternalLink, MapPin, Calendar, UserRound, DollarSign, CheckCircle2 } from "lucide-react";
+import Pagination from "@/components/features/common/Pagination";
+import { Star, Users, Globe, ExternalLink, MapPin } from "lucide-react";
 import { FaXTwitter, FaThreads   } from "react-icons/fa6";
 import { LuLinkedin, LuFacebook, LuInstagram  } from "react-icons/lu";
+import ReviewCard from "@/components/features/companies/ReviewCard";
 
 import { cn } from "@/lib/utils";
 import type { PaginatedResponse } from "@/types/api/common";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import SalaryCard from "@/components/features/companies/SalaryCard";
+import VerificationBadge from "@/components/features/common/VerificationBadge";
 
-function getRatingColor(rating: number): string {
-  const normalized = rating / 5;
-  if (normalized <= 0.2) return "text-red-600 bg-red-50 border-red-200";
-  if (normalized <= 0.4) return "text-orange-600 bg-orange-50 border-orange-200";
-  if (normalized <= 0.6) return "text-yellow-600 bg-yellow-50 border-yellow-200";
-  if (normalized <= 0.8) return "text-lime-600 bg-lime-50 border-lime-200";
-  return "text-green-600 bg-green-50 border-green-200";
-}
 
-function getRatingBadgeColor(rating: number): string {
-  const normalized = rating / 5;
-  if (normalized <= 0.2) return "bg-red-100 text-red-700 border-red-300";
-  if (normalized <= 0.4) return "bg-orange-100 text-orange-700 border-orange-300";
-  if (normalized <= 0.6) return "bg-yellow-100 text-yellow-700 border-yellow-300";
-  if (normalized <= 0.8) return "bg-lime-100 text-lime-700 border-lime-300";
-  return "bg-green-100 text-green-700 border-green-300";
-}
+const PAGE_SIZE = 25 ;
 
 function CardHeading({ text }: { text: string }){
   return (
@@ -88,7 +75,7 @@ export default function CompanyPage() {
     isLoading: isLoadingReviews,
   } = useQuery<PaginatedResponse<CompanyReview>>({
     queryKey: ["company-reviews", slug, reviewsPage],
-    queryFn: () => getCompanyReviews({ slug, page: reviewsPage, pageSize: 25 }),
+    queryFn: () => getCompanyReviews({ slug, page: reviewsPage, pageSize: PAGE_SIZE }),
     enabled: Boolean(slug) && activeTab === "reviews",
   });
 
@@ -97,9 +84,12 @@ export default function CompanyPage() {
     isLoading: isLoadingSalaries,
   } = useQuery<PaginatedResponse<SalarySubmission>>({
     queryKey: ["company-salaries", slug, salariesPage],
-    queryFn: () => getCompanySalaries({ slug, page: salariesPage, pageSize: 25 }),
+    queryFn: () => getCompanySalaries({ slug, page: salariesPage, pageSize: PAGE_SIZE }),
     enabled: Boolean(slug) && activeTab === "salaries",
   });
+
+  const reviewsTotalPages = Math.ceil((reviews?.count || 0) / PAGE_SIZE);
+  const salariesTotalPages = Math.ceil((salaries?.count || 0) / PAGE_SIZE);
 
   const initials = useMemo(() => {
     const name = company?.name || "";
@@ -113,8 +103,9 @@ export default function CompanyPage() {
 
   const technologiesByCategory = useMemo(() => {
     if (!company?.technologies || company.technologies.length === 0) return {};
-    
+  
     const grouped: Record<string, typeof company.technologies> = {};
+  
     company.technologies.forEach((tech) => {
       const categoryName = tech.category?.name || "Others";
       if (!grouped[categoryName]) {
@@ -122,8 +113,11 @@ export default function CompanyPage() {
       }
       grouped[categoryName].push(tech);
     });
-    
-    return grouped;
+  
+    // for now sort by name
+    return Object.fromEntries(
+      Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b))
+    );
   }, [company]);
 
   return (
@@ -172,9 +166,9 @@ export default function CompanyPage() {
                 ))}
               </div>
             </header>
-
-            <div className="sticky top-0 z-10 bg-background/80 supports-[backdrop-filter]:bg-background/60 backdrop-blur mt-4">
-              <div className="flex items-center justify-center pb-4">
+            
+            {/* Tabs */}
+            <div className="mb-4 mt-4 flex items-center justify-center">
                 <Tabs value={activeTab} onValueChange={(v: string) => setActiveTab(v as TabKey)}>
                   <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -183,7 +177,6 @@ export default function CompanyPage() {
                     <TabsTrigger value="locations">Locations</TabsTrigger>
                   </TabsList>
                 </Tabs>
-              </div>
             </div>
 
             <Tabs value={activeTab} onValueChange={(v: string) => setActiveTab(v as TabKey)}>
@@ -202,20 +195,20 @@ export default function CompanyPage() {
                           </p>
                         </div>
                       )}
-                      <div>
-                        <CardHeading text="Technologies"/>
-                        {Object.keys(technologiesByCategory).length > 0 ? (
+                      {Object.keys(technologiesByCategory).length > 0 && (
+                        <div>
+                          <CardHeading text="Technologies"/>
                           <div className="space-y-4">
                             {Object.entries(technologiesByCategory).map(([categoryName, technologies]) => (
                               <div key={categoryName} className="space-y-2">
                                 <CardSubHeading text={categoryName}/>
                                 <div className="flex flex-wrap gap-4">
                                   {technologies.map((tech) => (
-                                    <div key={tech.id} className="flex flex-col items-center gap-2">
-                                      <Avatar className="h-10 w-10">
-                                        <AvatarImage src={tech.logo_url || undefined} alt={tech.name} />
-                                        <AvatarFallback className="text-xs">{tech.name.charAt(0)}</AvatarFallback>
-                                      </Avatar>
+                                    <div key={tech.id} className="flex flex-col items-center">
+                                      <div className="p-2 rounded-full flex items-center justify-center w-12 h-12">
+                                        <i className={`${tech.devicon_class_light} text-4xl block dark:hidden`}></i>
+                                        <i className={`${tech.devicon_class_dark} text-4xl hidden dark:block`}></i>
+                                      </div>
                                       <span className="text-xs font-medium text-center">{tech.name}</span>
                                     </div>
                                   ))}
@@ -223,10 +216,8 @@ export default function CompanyPage() {
                               </div>
                             ))}
                           </div>
-                        ) : (
-                          <div className="text-sm text-muted-foreground italic">No technologies available.</div>
-                        )}
-                      </div>
+                        </div>
+                      )}
                       <div>
                         <CardHeading text="Benefits"/>
                         {company.benefits && company.benefits.length > 0 ? (
@@ -276,152 +267,21 @@ export default function CompanyPage() {
                 {isLoadingReviews && (
                   <div className="text-center text-muted-foreground">Loading reviews…</div>
                 )}
-                {!!reviews?.results?.length && reviews.results.map((r: CompanyReview) => {
-                  const finalRating = parseFloat(r.final_calculated_rating);
-                  return (
-                    <Card key={r.id}>
-                      <CardHeader className="flex flex-row items-center gap-3">
-                        <div className="flex items-center gap-3 flex-1">
-                          <Avatar className="h-10 w-10">
-                            <AvatarFallback className="bg-muted">
-                              <UserRound className="h-5 w-5 text-muted-foreground" />
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1">
-                            <CardTitle className="text-base">
-                              {r.show_employee_details && r.reviewer
-                                ? `${r.reviewer.first_name} ${r.reviewer.last_name}`
-                                : "Anonymous"}
-                            </CardTitle>
-                            {r.show_role && (
-                              <div className="text-xs text-muted-foreground mt-0.5">
-                                {r.work_experience.job_role.job_title.name} • {r.work_experience.job_role.seniority_level}
-                              </div>
-                            )}
-                            {r.show_working_period && (
-                              <div className="text-xs text-muted-foreground inline-flex items-center gap-1 mt-0.5">
-                                <Calendar className="h-3 w-3" /> {r.work_experience.start_date} → {r.work_experience.end_date}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        {/* Final rating - prominent display */}
-                        <div className={cn("rounded-lg border px-4 py-2 text-center min-w-[80px]", getRatingColor(finalRating))}>
-                          <div className="text-xs font-semibold mb-0.5">Final Rating</div>
-                          <div className="text-2xl font-bold">{r.final_calculated_rating}</div>
-                          <div className="text-xs">out of 5</div>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="space-y-3">
-                        <Accordion type="single" collapsible className="w-full">
-                          <AccordionItem value="details">
-                            <AccordionTrigger>Detailed Ratings & Review</AccordionTrigger>
-                            <AccordionContent className="space-y-4">
-                              {/* Detailed ratings grid */}
-                              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Onboarding</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.onboarding))}>
-                                    {r.onboarding}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Work-life balance</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.work_life_balance))}>
-                                    {r.work_life_balance}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Management</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.management))}>
-                                    {r.management}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Career growth</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.career_growth))}>
-                                    {r.career_growth}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Promoting process</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.promoting_process))}>
-                                    {r.promoting_process}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Day-to-day</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.day_to_day_atmosphere))}>
-                                    {r.day_to_day_atmosphere}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Salary satisfaction</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.salary_satisfaction))}>
-                                    {r.salary_satisfaction}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Hours flexibility</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.work_hours_flexibility))}>
-                                    {r.work_hours_flexibility}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Job security</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.job_security))}>
-                                    {r.job_security}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Recognition</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.recognition))}>
-                                    {r.recognition}
-                                  </Badge>
-                                </div>
-                                <div className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
-                                  <span className="text-xs text-muted-foreground">Team collaboration</span>
-                                  <Badge className={cn("text-xs border", getRatingBadgeColor(r.team_collaboration))}>
-                                    {r.team_collaboration}
-                                  </Badge>
-                                </div>
-                              </div>
-
-                              {/* Review text - always shown */}
-                              <div>
-                                <div className="text-xs font-semibold text-foreground/80 mb-2">Review</div>
-                                <div className="text-sm leading-relaxed rounded-2xl border bg-muted/50 px-3 py-2">
-                                  {r.review_text || (
-                                    <span className="text-muted-foreground italic">No review text provided.</span>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Advice to management - always shown */}
-                              <div>
-                                <div className="text-xs font-semibold text-foreground/80 mb-2">Advice to management</div>
-                                <div className="text-sm leading-relaxed rounded-2xl border bg-muted/50 px-3 py-2">
-                                  {r.advice_to_management || (
-                                    <span className="text-muted-foreground italic">No advice provided.</span>
-                                  )}
-                                </div>
-                              </div>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                {!!reviews?.results?.length &&  
+                  <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                    {reviews.results.map((r: CompanyReview) => 
+                      <ReviewCard key={r.id} review={r}/>
+                    )}
+                  </div>
+                }
                 {!isLoadingReviews && (!reviews || reviews.results.length === 0) && (
                   <div className="text-center text-muted-foreground">No reviews yet.</div>
                 )}
-                {!!reviews && reviews.count > 10 && (
+                {!!reviews && reviewsTotalPages > 1 && (
                   <Pagination
-                    hasPrevious={Boolean(reviews.previous)}
-                    hasNext={Boolean(reviews.next)}
-                    onPrevious={() => setReviewsPage((p) => Math.max(1, p - 1))}
-                    onNext={() => setReviewsPage((p) => p + 1)}
+                    totalPages={reviewsTotalPages}
+                    currentPage={reviewsPage}
+                    setCurrentPage={setReviewsPage}
                   />
                 )}
                 </section>
@@ -429,61 +289,69 @@ export default function CompanyPage() {
 
               <TabsContent value="salaries">
                 <section className="space-y-4">
-                {isLoadingSalaries && (
-                  <div className="text-center text-muted-foreground">Loading salaries…</div>
-                )}
-                {!!salaries?.results?.length && salaries.results.map((s: SalarySubmission) => (
-                  <Card key={s.id}>
-                    <CardHeader className="flex flex-row items-center gap-3">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10">
-                          <AvatarFallback className="bg-muted">
-                            <DollarSign className="h-5 w-5 text-muted-foreground" />
-                          </AvatarFallback>
-                        </Avatar>
-                        <CardTitle className="text-base">
-                          {s.work_experience.job_role.job_title.name} • {s.work_experience.job_role.seniority_level}
-                        </CardTitle>
+                  {isLoadingSalaries && (
+                    <div className="text-center text-muted-foreground">Loading salaries…</div>
+                  )}
+                  {!!salaries?.results?.length && (
+                      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                        { 
+                          salaries.results.map((s: SalarySubmission) => (
+                            <SalaryCard key={s.id} salarySubmission={s}/>
+                          ))
+                        }
                       </div>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="secondary" className="text-sm font-semibold px-2 py-1 inline-flex items-center gap-1">
-                          <DollarSign className="h-4 w-4" /> {s.salary} {s.currency}
-                        </Badge>
-                        {s.work_experience.is_verified && (
-                          <Badge variant="outline" className="inline-flex items-center gap-1 text-xs">
-                            <CheckCircle2 className="h-3.5 w-3.5 text-green-600" /> Verified experience
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="text-xs text-muted-foreground inline-flex items-center gap-1">
-                        <Calendar className="h-3.5 w-3.5" /> {s.work_experience.start_date} → {s.work_experience.end_date}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-                {!isLoadingSalaries && (!salaries || salaries.results.length === 0) && (
-                  <div className="text-center text-muted-foreground">No salaries yet.</div>
-                )}
-                {!!salaries && salaries.count > 10 && (
-                  <Pagination
-                    hasPrevious={Boolean(salaries.previous)}
-                    hasNext={Boolean(salaries.next)}
-                    onPrevious={() => setSalariesPage((p) => Math.max(1, p - 1))}
-                    onNext={() => setSalariesPage((p) => p + 1)}
-                  />
-                )}
+                    )
+                  }
+                  {!isLoadingSalaries && (!salaries || salaries.results.length === 0) && (
+                    <div className="text-center text-muted-foreground">No salaries submissions yet.</div>
+                  )}
+                  {!!salaries && salariesTotalPages > 1 && (
+                    <Pagination
+                      totalPages={salariesTotalPages}
+                      currentPage={salariesPage}
+                      setCurrentPage={setSalariesPage}
+                    />
+                  )}
                 </section>
               </TabsContent>
 
               <TabsContent value="locations">
-                <section className="grid gap-4 md:grid-cols-2">
                 {company.locations?.map((loc) => (
+                <section className="grid gap-4 md:grid-cols-2">
                   <Card key={loc.id}>
                     <CardHeader>
-                      <CardTitle className="text-base inline-flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-primary" /> {loc.city.name}, {loc.city.state.name}, {loc.city.state.country.name}
+                      <CardTitle className="text-base flex flex-col gap-2">
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="inline-flex items-center gap-2 flex-wrap">
+                            <MapPin className="h-4 w-4 text-primary flex-shrink-0" /> 
+                            <Link 
+                              to={`/locations/cities/${loc.city.slug}`}
+                              className="hover:underline"
+                            >
+                              {loc.city.name}
+                            </Link>
+                            <span className="text-muted-foreground">-</span>
+                            <Link 
+                              to={`/locations/states/${loc.city.state.slug}`}
+                              className="hover:underline"
+                            >
+                              {loc.city.state.name}
+                            </Link>
+                            <span className="text-muted-foreground">-</span>
+                            <Link 
+                              to={`/locations/countries/${loc.city.state.country.slug}`}
+                              className="hover:underline"
+                            >
+                              {loc.city.state.country.name}
+                            </Link>
+                          </div>
+                          <VerificationBadge isVerified={loc.is_verified}/>
+                        </div>
+                        {(loc.street || loc.building) && (
+                          <div className="text-sm text-muted-foreground pl-6">
+                            {loc.building || ""} - {loc.street || ""} 
+                          </div>
+                        )}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
@@ -498,23 +366,16 @@ export default function CompanyPage() {
                           />
                         </div>
                       )}
-                      {(loc.street || loc.building) && (
-                        <div className="text-sm text-muted-foreground inline-flex items-center gap-2">
-                          <span>{loc.street || ""} {loc.building || ""}</span>
-                        </div>
-                      )}
-                      <div>
-                        <Badge variant={loc.is_certain ? "secondary" : "outline"}>
-                          {loc.is_certain ? "Verified" : "Unverified"}
-                        </Badge>
-                      </div>
+                      
                     </CardContent>
                   </Card>
+                </section>
                 ))}
                 {(!company.locations || company.locations.length === 0) && (
-                  <div className="text-center text-muted-foreground">No locations listed.</div>
+                  <section>
+                    <div className="text-center text-muted-foreground">No locations available.</div>
+                  </section>
                 )}
-                </section>
               </TabsContent>
             </Tabs>
           </>

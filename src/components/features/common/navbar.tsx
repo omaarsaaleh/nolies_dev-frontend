@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "@/context/theme/use-theme";
 import { Moon, Sun } from "lucide-react";
 import type {MenuItem, User} from '@/types/ui/navbar' ;
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useLogout } from "@/context/auth/use-logout";
 
 
@@ -129,6 +129,8 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
 // Mobile Navigation
 // -------------------
 function MobileNav({ links }: { links: MenuItem[] }) {
+  const location = useLocation();
+  
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -143,22 +145,25 @@ function MobileNav({ links }: { links: MenuItem[] }) {
       <PopoverContent align="start" className="w-fit p-2">
         <NavigationMenu className="max-w-none">
           <NavigationMenuList className="flex-col items-start gap-1">
-            {links.map((link, index) => (
-              <NavigationMenuItem key={index} className="w-full">
-                <button
-                  onClick={(e) => e.preventDefault()}
-                  className={cn(
-                    "flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer no-underline",
-                    // link.active
-                    //   ? "bg-accent text-accent-foreground"
-                    //   : 
-                      "text-foreground/80"
-                  )}
-                >
-                  {link.title}
-                </button>
-              </NavigationMenuItem>
-            ))}
+            {links.map((link, index) => {
+              if (link.type === "link") {
+                const isActive = location.pathname.startsWith(link.to);
+                return (
+                  <NavigationMenuItem key={index} className="w-full">
+                    <Link
+                      to={link.to}
+                      className={cn(
+                        "group inline-flex h-9 w-full items-center justify-center rounded-md px-4 py-2 font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline text-md",
+                        isActive && "bg-accent text-accent-foreground"
+                      )}
+                    >
+                      {link.title}
+                    </Link>
+                  </NavigationMenuItem>
+                )
+              }
+              return null;
+            })}
           </NavigationMenuList>
         </NavigationMenu>
       </PopoverContent>
@@ -170,16 +175,22 @@ function MobileNav({ links }: { links: MenuItem[] }) {
 // Desktop Navigation
 // -------------------
 function DesktopNav({ links }: { links: MenuItem[] }) {
+  const location = useLocation();
+  
   return (
     <NavigationMenu className="flex">
       <NavigationMenuList className="gap-1">
         {links.map((link, index) => {
           if (link.type === "link") {
+            const isActive = location.pathname.startsWith(link.to);
             return (
               <NavigationMenuItem key={index}>
                 <Link 
                   to={link.to} 
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline text-md"
+                  className={cn(
+                    "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline text-md",
+                    isActive && "bg-accent text-accent-foreground"
+                  )}
                 >
                   {link.title}
                 </Link>

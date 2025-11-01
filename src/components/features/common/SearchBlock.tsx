@@ -1,11 +1,11 @@
 import { Input } from "@/components/ui/input";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Search, Filter, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Filter, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { ReactNode } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-
+import Pagination from '@/components/features/common/Pagination';
 
 
 interface SearchBlockProps {
@@ -25,9 +25,9 @@ interface SearchBlockProps {
   isSearchResultsError?: boolean;
   searchResultsCount?: number
 
-  pageSize: number,
+  totalPages: number,
   currentPage: number,
-  setcurrentPage: (value: number) => void 
+  setCurrentPage: (value: number) => void 
 } 
 
 export default function SearchBlock({
@@ -47,9 +47,9 @@ export default function SearchBlock({
   isSearchResultsError,
   searchResultsCount,
 
-  pageSize,
+  totalPages,
   currentPage,
-  setcurrentPage
+  setCurrentPage
 }  : SearchBlockProps
 ){
   
@@ -85,7 +85,6 @@ export default function SearchBlock({
     );
   }
   else if(searchResults && searchResultsCount){
-    const totalPages = Math.ceil(searchResultsCount / pageSize) ;
     searchResultsContent = (
       <>
         <div className="flex items-center justify-between">
@@ -107,64 +106,7 @@ export default function SearchBlock({
           )}
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-8">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setcurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              
-              <div className="flex items-center gap-1">
-                {(() => {
-                  const items: (number | "ellipsis")[] = [];
-                  if (totalPages <= 5) {
-                    for (let i = 1; i <= totalPages; i++) items.push(i);
-                  } 
-                  else {
-                    items.push(1, 2);
-                    if (totalPages > 4) items.push("ellipsis");
-                    items.push(totalPages - 1, totalPages);
-                  }
-
-                  return items.map((item, idx) => {
-                    if (item === "ellipsis") {
-                      return (
-                        <Button key={`ellipsis-${idx}`} variant="outline" size="sm" disabled className="w-8 h-8 p-0 cursor-default">
-                          …
-                        </Button>
-                      );
-                    }
-
-                    const pageNum = item as number;
-                    return (
-                      <Button
-                        key={pageNum}
-                        variant={pageNum === currentPage ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setcurrentPage(pageNum)}
-                        className="w-8 h-8 p-0"
-                      >
-                        {pageNum}
-                      </Button>
-                    );
-                  });
-                })()}
-              </div>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setcurrentPage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
+          <Pagination totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
         </>
       </>
     )
