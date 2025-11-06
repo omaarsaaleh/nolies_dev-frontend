@@ -1,0 +1,42 @@
+// /api/workplace-verifications/
+// parameters
+// page: int
+// page_size: in
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 5,
+            "type": "WORK_EMAIL",
+            "verification": {
+                "work_email": "boody@rowad-rme.com"
+            },
+            "company": {
+                "id": 3,
+                "slug": "rowad-modern-engineering",
+                "name": "Rowad Modern Engineering",
+                "logo_url": "https://rowad-rme.com/wp-content/uploads/our-vision-new.jpg",
+                "domains": [
+                    {
+                        "id": 1,
+                        "name": "Fintech",
+                        "slug": "fintech",
+                        "image_url": null
+                    }
+                ],
+                "reviewers_count": 1,
+                "average_rating": 0.46,
+                "description": "Rowad is one of the leading construction companies in Egypt, GCC and Africa. It has been in service since 1998. It's known for its high-quality work on complex projects across Egypt, the Middle East, and Africa. The company emphasizes safety, quality management (ISO certified), and sustainability in its operations.",
+                "mail_domains": [
+                    {
+                        "id": 2,
+                        "domain": "rowad-rme.com"
+                    }
+                ]
+            },
+            "created_at": "2025-11-02T21:49:08.168894Z"
+        }
+    ]
+}

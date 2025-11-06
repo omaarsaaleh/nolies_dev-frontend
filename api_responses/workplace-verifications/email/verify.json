@@ -1,0 +1,5 @@
+// /api/workplace-verifications/email/verify/
+{
+    "work_email" : "boody@rowad-rme.com",
+    "otp" : "765734"
+}

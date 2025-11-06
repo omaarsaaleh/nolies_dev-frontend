@@ -1,0 +1,121 @@
+// /api/work-experiences/
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 3,
+            "company": {
+                "id": 1,
+                "slug": "paymob",
+                "name": "Paymob",
+                "logo_url": "https://www.ampeco.com/content/uploads/2024/08/paymob-logo-1-300x300.png",
+                "domains": [
+                    {
+                        "id": 1,
+                        "name": "Fintech",
+                        "slug": "fintech",
+                        "image_url": null
+                    }
+                ],
+                "reviewers_count": 0,
+                "average_rating": 0.0,
+                "description": "A financial technology company that provides a comprehensive payments infrastructure for businesses to accept and make digital payments. It offers solutions for various needs, including processing online and in-store payments, enabling mobile payments via apps, and providing services like payment links and digital wallets. The company serves both large corporations and small to medium-sized enterprises (SMEs) in the Middle East and North Africa (MENA) region and is known for supporting a wide range of payment methods.",
+                "mail_domains": [
+                    {
+                        "id": 1,
+                        "domain": "paymob.com"
+                    }
+                ]
+            },
+            "is_verified": false,
+            "verification": null,
+            "created_at": "2025-11-02T22:36:43.980654Z",
+            "updated_at": "2025-11-02T22:36:43.980676Z",
+            "roles": [
+                {
+                    "id": 9,
+                    "job_role": {
+                        "id": 1,
+                        "seniority_level": "Intern",
+                        "job_title": {
+                            "id": 1,
+                            "name": "Backend Developer",
+                            "slug": "backend-developer"
+                        }
+                    },
+                    "start_date": "2025-10-01",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "company": {
+                "id": 3,
+                "slug": "rowad-modern-engineering",
+                "name": "Rowad Modern Engineering",
+                "logo_url": "https://rowad-rme.com/wp-content/uploads/our-vision-new.jpg",
+                "domains": [
+                    {
+                        "id": 1,
+                        "name": "Fintech",
+                        "slug": "fintech",
+                        "image_url": null
+                    }
+                ],
+                "reviewers_count": 1,
+                "average_rating": 0.46,
+                "description": "Rowad is one of the leading construction companies in Egypt, GCC and Africa. It has been in service since 1998. It's known for its high-quality work on complex projects across Egypt, the Middle East, and Africa. The company emphasizes safety, quality management (ISO certified), and sustainability in its operations.",
+                "mail_domains": [
+                    {
+                        "id": 2,
+                        "domain": "rowad-rme.com"
+                    }
+                ]
+            },
+            "is_verified": true,
+            "verification": {
+                "id": 5,
+                "type": "WORK_EMAIL",
+                "verification": {
+                    "work_email": "boody@rowad-rme.com"
+                },
+                "created_at": "2025-11-02T21:49:08.168894Z"
+            },
+            "created_at": "2025-11-02T22:08:29.406929Z",
+            "updated_at": "2025-11-02T23:19:00.033703Z",
+            "roles": [
+                {
+                    "id": 16,
+                    "job_role": {
+                        "id": 3,
+                        "seniority_level": "Junior",
+                        "job_title": {
+                            "id": 2,
+                            "name": "Penetration Tester",
+                            "slug": "penetration-tester"
+                        }
+                    },
+                    "start_date": "2025-10-04",
+                    "end_date": null
+                },
+                {
+                    "id": 8,
+                    "job_role": {
+                        "id": 2,
+                        "seniority_level": "Junior",
+                        "job_title": {
+                            "id": 1,
+                            "name": "Backend Developer",
+                            "slug": "backend-developer"
+                        }
+                    },
+                    "start_date": "2025-09-01",
+                    "end_date": "2025-10-01"
+                }
+            ]
+        }
+    ]
+}

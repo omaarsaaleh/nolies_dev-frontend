@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import Page from "@/components/Page";
-import SearchBlock from "@/components/features/common/SearchBlock";
-import CompanyCard from "@/components/features/companies/CompanyCard";
-import MultiSelectFilter from "@/components/features/companies/MultiSelectFilter";
-import LocationFilter from "@/components/features/companies/LocationFilter";
+import Page from "@/components/pages/Page";
+import SearchBlock from "@/components/lists/SearchBlock";
+import CompanyCard from "@/components/companies/CompanyCard";
+import MultiSelectFilter from "@/components/companies/MultiSelectFilter";
+import LocationFilter from "@/components/companies/LocationFilter";
 import { searchCompanies, getTechnologies, getDomains, getBenefits } from "@/api/companies";
 import type { CompanySearchParams } from "@/types/api/companies";
 import type { Operator } from "@/types/api/common";

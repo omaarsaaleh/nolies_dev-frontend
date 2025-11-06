@@ -1,0 +1,5 @@
+// /api/workplace-verifications/email/attempt/
+{
+    "work_email" : "boody@paymob.com",
+    "company" : "paymob"
+}

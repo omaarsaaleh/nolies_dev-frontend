@@ -9,9 +9,12 @@ import Home from '@/pages/Home'
 import Profile from '@/pages/Profile'
 import CompanySearch from '@/pages/CompanySearch'
 import CompanyPage from '@/pages/CompanyPage'
-import { AuthProtectedRoute } from "@/components/AuthProtectedRoute"
-import { UnauthRoute } from "@/components/UnauthRoute"
+import { AuthProtectedRoute } from "@/components/routing/AuthProtectedRoute"
+import { UnauthRoute } from "@/components/routing/UnauthRoute"
 import { Toaster } from "@/components/ui/sonner"
+import ChangePassword from "@/components/profile/ChangePassword";
+import WorkplaceVerificationCard from "@/components/profile/WorkplaceVerificationCard";
+import WorkExperiencesCard from "@/components/profile/WorkExperiencesCard";
 
 export default function App() {  
 
@@ -33,7 +36,12 @@ export default function App() {
         
         <Route element={<AuthProtectedRoute />}>
           <Route path='/verify-account' element={<VerifyAccount/>}></Route>
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/" element={<Profile />}>
+            <Route index element={<ChangePassword />} />
+            <Route path="change-password" element={<ChangePassword />} />
+            <Route path="workplace-verifications" element={<WorkplaceVerificationCard />} />
+            <Route path="work-experiences" element={<WorkExperiencesCard />} />
+          </Route>
         </Route>
       </Routes>
       <Toaster />

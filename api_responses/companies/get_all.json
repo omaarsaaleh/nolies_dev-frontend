@@ -38,7 +38,14 @@ Query Parameters:
                 }
             ],
             "reviewers_count": 0,
-            "average_rating": 0.0
+            "average_rating": 0.0,
+            "description": "A financial technology company that provides a comprehensive payments infrastructure for businesses to accept and make digital payments. It offers solutions for various needs, including processing online and in-store payments, enabling mobile payments via apps, and providing services like payment links and digital wallets. The company serves both large corporations and small to medium-sized enterprises (SMEs) in the Middle East and North Africa (MENA) region and is known for supporting a wide range of payment methods.",
+            "mail_domains": [
+                {
+                    "id": 1,
+                    "domain": "paymob.com"
+                }
+            ]
         }
     ]
 }

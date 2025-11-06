@@ -66,6 +66,7 @@ export type CompanyMinimal  = {
   name: string;
   logo_url: string | null;
   domains: DomainMinimal[];
+  mail_domains: MailDomain[];
   description: string,
   reviewers_count: number;
   average_rating: number;

@@ -1,0 +1,16 @@
+// /api/work-experiences/
+{
+    "company": "paymob",
+    // max 5 roles
+    // there must not be an overlap
+    // only the role with largest start date can have end_date:null indicating present
+    // at most 5 at least 1
+    "roles": [ 
+        {
+            "job_role" : 1,
+            "start_date": "2025-10-01",
+            "end_date" : "2025-12-01"
+        }
+    ],
+    "verification" : 1 // optional
+}

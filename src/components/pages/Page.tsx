@@ -1,6 +1,6 @@
-import Navbar from "@/components/features/common/navbar";
-import type { User as NavbarUser } from "@/types/ui/navbar";
-import { menuItems as defaultNavigationLinks, profileLinks as defaultProfileLinks } from "@/constants/ui/navbar";
+import Navbar from "@/components/navbar/navbar";
+import type { User as NavbarUser } from "@/types/ui/navigation";
+import { navbarMenuItems as defaultNavigationLinks, navbarProfileMenuItems as defaultProfileLinks } from "@/constants/ui/navigation";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import { useUser } from "@/context/auth/use-user";
@@ -24,7 +24,8 @@ export default function Page({
       firstName: user.first_name,
       lastName: user.last_name,
       email: user.email,
-      avatarUrl: null,
+      username: user.username,
+      avatarUrl: undefined,
     };
   }, [user]);
   

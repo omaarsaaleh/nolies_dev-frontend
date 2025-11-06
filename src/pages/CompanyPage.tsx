@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import Page from "@/components/Page";
+import Page from "@/components/pages/Page";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,16 +13,16 @@ import { getCompanySalaries } from "@/api/salaries";
 import type { CompanyDetail } from "@/types/api/companies";
 import type { CompanyReview } from "@/types/api/reviews";
 import type { SalarySubmission } from "@/types/api/salaries";
-import Pagination from "@/components/features/common/Pagination";
+import Pagination from "@/components/lists/Pagination";
 import { Star, Users, Globe, ExternalLink, MapPin } from "lucide-react";
 import { FaXTwitter, FaThreads   } from "react-icons/fa6";
 import { LuLinkedin, LuFacebook, LuInstagram  } from "react-icons/lu";
-import ReviewCard from "@/components/features/companies/ReviewCard";
+import ReviewCard from "@/components/companies/ReviewCard";
 
 import { cn } from "@/lib/utils";
 import type { PaginatedResponse } from "@/types/api/common";
-import SalaryCard from "@/components/features/companies/SalaryCard";
-import VerificationBadge from "@/components/features/common/VerificationBadge";
+import SalaryCard from "@/components/companies/SalaryCard";
+import VerificationBadge from "@/components/common/VerificationBadge";
 
 
 const PAGE_SIZE = 25 ;

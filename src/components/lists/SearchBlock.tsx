@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { ReactNode } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import Pagination from '@/components/features/common/Pagination';
+import Pagination from '@/components/lists/Pagination';
 
 
 interface SearchBlockProps {
