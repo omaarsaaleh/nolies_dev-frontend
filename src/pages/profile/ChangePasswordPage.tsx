@@ -6,16 +6,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { toast } from "sonner";
-import { changePassword } from "@/api/profile";
-import { useMutation } from "@tanstack/react-query";
-import { ValidationError, AuthenticationError } from "@/api/errors";
-import {
+import { 
+  changePassword,   
   changePasswordSchema,
-  type ChangePasswordFormData,
-} from '@/types/api/profile.ts';
+  type ChangePasswordFormData 
+} from "@/api/account";
+import { useMutation } from "@tanstack/react-query";
+import { ValidationError } from "@/api/errors";
+import { useLogout } from "@/context/auth/use-logout";
 
-export default function ChangePassword() {
+export default function ChangePasswordPage() {
   const [formError, setFormError] = useState<string>("");
+  const logout = useLogout(false);
 
   const form = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordSchema),
@@ -27,9 +29,10 @@ export default function ChangePassword() {
       return changePassword(values);
     },
     onSuccess: async () => {
-      toast.success("Password updated");
+      toast.success("Password updated successfully!");
       form.reset();
       setFormError("");
+      logout.mutate();
     },
     onError: (error) => {
       setFormError("");
@@ -37,9 +40,6 @@ export default function ChangePassword() {
       if (error instanceof ValidationError) {
         const fieldErrors = error.field_errors;
         addErrors(form, fieldErrors);
-      } 
-      else if (error instanceof AuthenticationError) {
-        setFormError("Invalid current password.");
       } 
       else {
         setFormError("Something went wrong. Please try again later.");
@@ -53,20 +53,20 @@ export default function ChangePassword() {
   }
 
   return (
-    <div>
-      <Card>
+    <div className="flex-1 flex justify-center">
+      <Card className="border-0 shadow-none bg-background pt-10 md:pt-20">
         <CardHeader>
-          <CardTitle>Change Password</CardTitle>
+          <CardTitle className="text-lg">Change Password</CardTitle>
           <CardDescription>Update your account password.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="w-80 md:w-md">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 name="old_password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Current password</FormLabel>
+                    <FormLabel className=" text-md">Current password</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -78,7 +78,7 @@ export default function ChangePassword() {
                 name="new_password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>New password</FormLabel>
+                    <FormLabel className=" text-md">New password</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -90,7 +90,7 @@ export default function ChangePassword() {
                 name="confirm_new_password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm new password</FormLabel>
+                    <FormLabel className=" text-md">Confirm new password</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -99,7 +99,6 @@ export default function ChangePassword() {
                 )}
               />
 
-              {/* General error message */}
               {formError && (
                 <p className="text-destructive text-sm">
                   {formError}
@@ -117,5 +116,3 @@ export default function ChangePassword() {
     </div>
   );
 }
-
-

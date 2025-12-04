@@ -5,3 +5,9 @@ export type User = {
   email: string;
   is_verified: boolean;
 };
+
+export type Reviewer = {
+  id: number;
+  first_name: string;
+  last_name: string;
+};

@@ -7,13 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { getCompany } from "@/api/companies";
-import { getCompanyReviews } from "@/api/companyReviews";
-import { getCompanySalaries } from "@/api/salaries";
-import type { CompanyDetail } from "@/types/api/companies";
+import { getCompany, getCompanySalaries, getCompanyReviews } from "@/api/companies";
+import type { Company } from "@/types/api/companies";
 import type { CompanyReview } from "@/types/api/reviews";
 import type { SalarySubmission } from "@/types/api/salaries";
-import Pagination from "@/components/lists/Pagination";
+import Pagination from "@/components/common/Pagination";
 import { Star, Users, Globe, ExternalLink, MapPin } from "lucide-react";
 import { FaXTwitter, FaThreads   } from "react-icons/fa6";
 import { LuLinkedin, LuFacebook, LuInstagram  } from "react-icons/lu";
@@ -64,7 +62,7 @@ export default function CompanyPage() {
   const [reviewsPage, setReviewsPage] = useState(1);
   const [salariesPage, setSalariesPage] = useState(1);
 
-  const { data: company, isLoading, isError } = useQuery<CompanyDetail>({
+  const { data: company, isLoading, isError } = useQuery<Company>({
     queryKey: ["company", slug],
     queryFn: () => getCompany(slug),
     enabled: Boolean(slug),

@@ -1,10 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { CompanyMinimal } from "@/types/api/companies";
 import { cn } from "@/lib/utils";
+import { CompanyAvatar } from "@/components/companies/CompanyAvatar";
 
 interface CompanyCardProps {
   company: CompanyMinimal;
@@ -12,14 +12,6 @@ interface CompanyCardProps {
 }
 
 export default function CompanyCard({ company, className }: CompanyCardProps) {
-  const initials = company.name
-    .split(" ")
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-
-  const hasRating = company.average_rating > 0;
   const hasReviews = company.reviewers_count > 0;
 
   return (
@@ -32,17 +24,7 @@ export default function CompanyCard({ company, className }: CompanyCardProps) {
       >
         <CardContent className="p-6 h-full flex flex-col">
           <div className="flex flex-col items-center text-center flex-1">
-            {/* Logo */}
-            <Avatar className="h-16 w-16 ring-2 ring-primary/10 shadow-md mb-4">
-              <AvatarImage
-                src={company.logo_url || undefined}
-                alt={`${company.name} logo`}
-                className="object-cover"
-              />
-              <AvatarFallback className="bg-gradient-to-br from-primary/15 to-primary/25 text-primary font-bold text-lg shadow-inner">
-                {initials}
-              </AvatarFallback>
-            </Avatar>
+            <CompanyAvatar company={company}/>
 
             {/* Name */}
             <h3 className="font-bold text-xl text-foreground leading-tight line-clamp-2 mb-2">
@@ -82,7 +64,7 @@ export default function CompanyCard({ company, className }: CompanyCardProps) {
               <Star
                 className={cn(
                   "h-4 w-4",
-                  hasRating
+                  hasReviews
                     ? "fill-yellow-400 text-yellow-400 drop-shadow-sm"
                     : "fill-muted text-muted"
                 )}
@@ -90,10 +72,10 @@ export default function CompanyCard({ company, className }: CompanyCardProps) {
               <span
                 className={cn(
                   "text-sm font-bold",
-                  hasRating ? "text-foreground" : "text-muted-foreground"
+                  hasReviews ? "text-foreground" : "text-muted-foreground"
                 )}
               >
-                {hasRating ? company.average_rating.toFixed(1) : "No rating"}
+                {hasReviews ? Number(company.average_rating).toFixed(2) : "No rating"}
               </span>
             </div>
 

@@ -13,25 +13,25 @@ import { resendVerification, verifyAccount } from "@/api/auth"
 import { useMutation } from "@tanstack/react-query"
 import { useLogout } from "@/context/auth/use-logout"
 import { RateLimitError, ValidationError, VerificationError } from "@/api/errors"
-import { OTP_LENGTH, OTP_RESEND_COOLDOWN } from "@/constants/api/auth"
+import { ACCOUNT_OTP_LENGTH, ACCOUNT_OTP_RESEND_COOLDOWN } from "@/constants/api/auth"
 import { useUser } from "@/context/auth/use-user"
 
 const otpSchema = z.object({
   otp: z
     .string()
-    .min(OTP_LENGTH, `Enter the ${OTP_LENGTH}-digit code`)
-    .max(OTP_LENGTH, `Enter the ${OTP_LENGTH}-digit code`)
-    .regex(new RegExp(`^\\d{${OTP_LENGTH}}$`), `OTP must be ${OTP_LENGTH} digits`),
+    .min(ACCOUNT_OTP_LENGTH, `Enter the ${ACCOUNT_OTP_LENGTH}-digit code`)
+    .max(ACCOUNT_OTP_LENGTH, `Enter the ${ACCOUNT_OTP_LENGTH}-digit code`)
+    .regex(new RegExp(`^\\d{${ACCOUNT_OTP_LENGTH}}$`), `OTP must be ${ACCOUNT_OTP_LENGTH} digits`),
 });
 
 type OtpFormData = z.infer<typeof otpSchema>;
 
-export default function VerifyAccount() {
+export default function VerifyAccountPage() {
   const [formError, setFormError] = useState<string>("");
   const {refetchUser} = useUser();
   const [searchParams] = useSearchParams();
   const isJustSent = searchParams.get("justSent")?.toLowerCase() === "true";
-  const [resendCooldown, setResendCooldown] = useState<number>(isJustSent ? OTP_RESEND_COOLDOWN : 0);
+  const [resendCooldown, setResendCooldown] = useState<number>(isJustSent ? ACCOUNT_OTP_RESEND_COOLDOWN : 0);
 
   const form = useForm<OtpFormData>({
     resolver: zodResolver(otpSchema),
@@ -81,7 +81,7 @@ export default function VerifyAccount() {
   const resendMutation = useMutation({
     mutationFn: async () => resendVerification(),
     onSuccess: () => {
-      setResendCooldown(OTP_RESEND_COOLDOWN);
+      setResendCooldown(ACCOUNT_OTP_RESEND_COOLDOWN);
     },
     onError: (error) => {
       setFormError("");
@@ -106,7 +106,7 @@ export default function VerifyAccount() {
       <Card className="w-full border-0 shadow-none max-w-sm bg-background">
         <CardHeader className="space-y-2">
           <CardTitle className="text-center text-2xl">Verify your account</CardTitle>
-          <p className="text-center text-sm text-muted-foreground">Enter the {OTP_LENGTH}-digit code sent to your email</p>
+          <p className="text-center text-sm text-muted-foreground">Enter the {ACCOUNT_OTP_LENGTH}-digit code sent to your email</p>
         </CardHeader>
 
         <CardContent>
@@ -119,7 +119,7 @@ export default function VerifyAccount() {
                     {/* <FormLabel className="text-sm">Enter the 6-digit code</FormLabel> */}
                     <FormControl>
                       <InputOTP
-                        maxLength={OTP_LENGTH}
+                        maxLength={ACCOUNT_OTP_LENGTH}
                         value={field.value}
                         onChange={(val) => field.onChange(val.replace(/\D/g, ""))}
                         inputMode="numeric"
@@ -128,7 +128,7 @@ export default function VerifyAccount() {
                         className="mt-1"
                       >
                         {(() => {
-                          const half = Math.floor(OTP_LENGTH / 2);
+                          const half = Math.floor(ACCOUNT_OTP_LENGTH / 2);
                           return (
                             <>
                               <InputOTPGroup className="">
@@ -138,7 +138,7 @@ export default function VerifyAccount() {
                               </InputOTPGroup>
                               <InputOTPSeparator className="mx-2 text-muted-foreground" />
                               <InputOTPGroup className="">
-                                {Array.from({ length: OTP_LENGTH - half }).map((_, i) => {
+                                {Array.from({ length: ACCOUNT_OTP_LENGTH - half }).map((_, i) => {
                                   const index = half + i;
                                   return (
                                     <InputOTPSlot className="h-12 w-10 text-lg" index={index} key={`slot-b-${index}`} />

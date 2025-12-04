@@ -157,12 +157,12 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
-type FormErrorProps = {
+type FormErrorsProps = {
   error?: { message?: string };
   className?: string;
 };
 
-function FormErrors({ error, className }: FormErrorProps) {
+function FormErrors({ error, className }: FormErrorsProps) {
   if (!error?.message) return null;
 
   return (
@@ -204,6 +204,21 @@ function addErrors<T extends FieldValues>(
   }
 }
 
+type FormErrorProps = {
+  formError?: string;
+  className?: string;
+};
+function FormError({formError, className} : FormErrorProps){
+  return(
+    <>
+      {formError && (
+        <p className={cn("text-destructive text-sm", className)}>
+          {formError}
+        </p>
+      )}
+    </>
+  )
+}
 
 export {
   useFormField,
@@ -217,5 +232,6 @@ export {
   FormMessage,
   FormField,
 
-  FormErrors
+  FormErrors,
+  FormError
 }

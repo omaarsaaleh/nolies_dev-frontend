@@ -9,8 +9,10 @@ import { Separator } from '@/components/ui/separator'
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import type { User as NavigationUser } from "@/types/ui/navigation";
 import { sidebarSections } from "@/constants/ui/navigation";
-import { Outlet, useLocation } from "react-router-dom";
+import {  useLocation, Outlet, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
+import { House } from "lucide-react";
+import { Button } from "../ui/button";
 
 function getPageTitle(pathname: string): string {
   // TODO: Handle /profile
@@ -35,9 +37,10 @@ function getPageTitle(pathname: string): string {
   return "Profile";
 }
 
-export default function Profile() {
+export default function ProfilePage() {
   const { user } = useUser();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const derivedUser: NavigationUser | null = React.useMemo(() => {
     if (!user) return null;
@@ -76,10 +79,16 @@ export default function Profile() {
             />
             <span>{currentPageTitle}</span>
           </div>
-          <ThemeToggle/>
+          <div className=" flex gap-2 justify-center items-center">
+            <ThemeToggle/>
+            <Button variant="outline" size="icon" onClick={() => navigate('/')}>
+              <House className="absolute h-[1.2rem] w-[1.2rem]" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <Outlet />
+        <div className="flex flex-1 flex-col gap-4 px-2 md:px-4 pt-6 md:pt-8">
+          <Outlet/>
         </div>
       </SidebarInset>
     </SidebarProvider>

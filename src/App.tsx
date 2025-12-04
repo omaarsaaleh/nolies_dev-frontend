@@ -1,20 +1,20 @@
 
 import { Routes, Route } from "react-router-dom";
-import Login from '@/pages/auth/Login'
-import Signup from '@/pages/auth/Signup'
-import VerifyAccount from '@/pages/auth/VerifyAccount'
-import ForgetPassword from '@/pages/auth/ForgetPassword';
-import ResetPassword from '@/pages/auth/ResetPassword';
+import LoginPage from '@/pages/auth/LoginPage'
+import SignupPage from '@/pages/auth/SignupPage'
+import VerifyAccountPage from '@/pages/auth/VerifyAccountPage'
+import ForgetPasswordPage from '@/pages/auth/ForgetPasswordPage';
+import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
 import Home from '@/pages/Home'
-import Profile from '@/pages/Profile'
-import CompanySearch from '@/pages/CompanySearch'
-import CompanyPage from '@/pages/CompanyPage'
+import CompanySearchPage from '@/pages/companies/CompanySearchPage'
+import CompanyPage from '@/pages/companies/CompanyPage'
 import { AuthProtectedRoute } from "@/components/routing/AuthProtectedRoute"
 import { UnauthRoute } from "@/components/routing/UnauthRoute"
 import { Toaster } from "@/components/ui/sonner"
-import ChangePassword from "@/components/profile/ChangePassword";
-import WorkplaceVerificationCard from "@/components/profile/WorkplaceVerificationCard";
-import WorkExperiencesCard from "@/components/profile/WorkExperiencesCard";
+import ProfilePage from '@/components/pages/ProfilePage'
+import ChangePasswordPage from "@/pages/profile/ChangePasswordPage";
+import WorkplaceVerificationPage from "./pages/profile/WorkplaceVerificationPage";
+import WorkExperiencePage from "@/pages/profile/WorkExperiencePage";
 
 export default function App() {  
 
@@ -22,25 +22,25 @@ export default function App() {
     <>
       <Routes>
         <Route element={<UnauthRoute />}>
-          <Route path='/login' element={<Login/>}></Route>
-          <Route path='/signup' element={<Signup/>}></Route>
-          <Route path='/forget-password' element={<ForgetPassword/>}></Route>
-          <Route path='/reset-password' element={<ResetPassword/>}></Route>
+          <Route path='/login' element={<LoginPage/>}></Route>
+          <Route path='/signup' element={<SignupPage/>}></Route>
+          <Route path='/forget-password' element={<ForgetPasswordPage/>}></Route>
+          <Route path='/reset-password' element={<ResetPasswordPage/>}></Route>
         </Route>
         
         {/* public */}
         <Route path='/' element={<Home />}></Route>
-        <Route path='/companies' element={<CompanySearch />}></Route>
+        <Route path='/companies' element={<CompanySearchPage />}></Route>
         <Route path='/companies/:slug' element={<CompanyPage />}></Route>
 
         
         <Route element={<AuthProtectedRoute />}>
-          <Route path='/verify-account' element={<VerifyAccount/>}></Route>
-          <Route path="/profile/" element={<Profile />}>
-            <Route index element={<ChangePassword />} />
-            <Route path="change-password" element={<ChangePassword />} />
-            <Route path="workplace-verifications" element={<WorkplaceVerificationCard />} />
-            <Route path="work-experiences" element={<WorkExperiencesCard />} />
+          <Route path='/verify-account' element={<VerifyAccountPage/>}></Route>
+          <Route path="/profile/" element={<ProfilePage />}>
+            <Route index element={<ChangePasswordPage />} />
+            <Route path="change-password" element={<ChangePasswordPage />} />
+            <Route path="workplace-verifications" element={<WorkplaceVerificationPage />} />
+            <Route path="work-experiences" element={<WorkExperiencePage />} />
           </Route>
         </Route>
       </Routes>

@@ -4,7 +4,7 @@ import { logout } from "@/api/auth";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
-export function useLogout() {
+export function useLogout(userPrompted = true) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -18,10 +18,12 @@ export function useLogout() {
 
       queryClient.setQueryData(['user', 'me'], null);
             
-      toast.success("Logged out successfully");
+      if(userPrompted)
+        toast.success("Logged out successfully");
     },
     onError: () => {
-      toast.error("Failed to logout");
+      if(userPrompted)
+        toast.error("Failed to logout");
     },
   });
 }

@@ -13,6 +13,5 @@ export default defineConfig({
   },
   envPrefix: "PUB_",
   server: {
-    allowedHosts: ['2iru20whfwei0ofjeh2tiofvcrewhf44weqlfjicoeqe23.omarsaleh.dev']
   }
 })

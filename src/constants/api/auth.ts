@@ -1,8 +1,8 @@
 import {HOUR, MINUTE, DAY} from '@/constants/time';
 
-export const OTP_RESEND_COOLDOWN = MINUTE;
-export const OTP_LENGTH = 6;
-export const OTP_EXPIRATION = MINUTE * 15;
+export const ACCOUNT_OTP_RESEND_COOLDOWN = MINUTE;
+export const ACCOUNT_OTP_LENGTH = 6;
+export const ACCOUNT_OTP_EXPIRATION = MINUTE * 15;
 
 export const FORGET_PASSWORD_CONSTANTS = {
     FORGET_PASSWORD_REQUEST_EXPIRATION: HOUR,

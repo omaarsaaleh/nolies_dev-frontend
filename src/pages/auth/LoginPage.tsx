@@ -5,7 +5,7 @@ import {login} from "@/api/auth.ts" ;
 import {
   loginSchema,
   type LoginFormData,
-} from '@/types/api/auth.ts';
+} from '@/api/auth';
 import {
   Card,
   CardContent,
@@ -29,7 +29,7 @@ import {
 import {ValidationError, AuthenticationError} from "@/api/errors";
 import { useUser } from "@/context/auth/use-user";
 
-export default function Login(){
+export default function LoginPage(){
   const [formError, setFormError] = useState<string>("");
 
   const {refetchUser} = useUser();

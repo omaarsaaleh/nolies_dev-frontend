@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { CountryMinimal, StateMinimal, CityMinimal } from "@/types/api/companies";
+import type { Country, StateMinimal, CityMinimal } from "@/types/api/common";
 import { getCountries, getStates, getCities } from "@/api/companies";
 
 interface LocationFilterProps {
@@ -23,7 +23,7 @@ export default function LocationFilter({
   className,
 }: LocationFilterProps) {
   const [open, setOpen] = useState(false);
-  const [countries, setCountries] = useState<CountryMinimal[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<StateMinimal[]>([]);
   const [cities, setCities] = useState<CityMinimal[]>([]);
   const [loading, setLoading] = useState(false);

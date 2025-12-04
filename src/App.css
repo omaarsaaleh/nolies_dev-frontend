@@ -1,12 +1,12 @@
 @import "tailwindcss";
-
+/* 
 html {
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 html, body {
   margin: 0;
   height: 100%;
-}
+} */
 
 body {
   /* background-image: url("../../public/noise.png"); */

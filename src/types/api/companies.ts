@@ -1,10 +1,23 @@
 import type { Operator } from "@/types/api/common.ts";
+import type { City } from "./common";
 
-export type DomainMinimal = {
+export type Domain = {
   id: number;
   name: string;
   slug: string;
   image_url: string | null;
+};
+
+export type Technology = {
+  id: number;
+  name: string;
+  category: TechnologyCategory;
+  slug: string;
+  logo_url: string | null;
+  description: string;
+  documentation_url: string;
+  devicon_class_light: string;
+  devicon_class_dark: string;
 };
 
 export type TechnologyMinimal = {
@@ -21,51 +34,20 @@ export type TechnologyCategory = {
   slug: string;
 };
 
-export type TechnologyDetail = {
-  id: number;
-  name: string;
-  category: TechnologyCategory;
-  slug: string;
-  logo_url: string | null;
-  devicon_class_light: string;
-  devicon_class_dark: string;
-};
 
-export type BenefitMinimal  = {
+export type Benefit = {
   id: number;
   name: string;
   slug: string;
 };
 
-export type CountryMinimal  = {
-  id: number;
-  name: string;
-  slug: string;
-  image_url: string | null;
-};
-
-export type StateMinimal  = {
-  id: number;
-  name: string;
-  slug: string;
-  image_url: string | null;
-  country: number;
-};
-
-export type CityMinimal  = {
-  id: number;
-  name: string;
-  slug: string;
-  image_url: string | null;
-  state: number;
-};
 
 export type CompanyMinimal  = {
   id: number;
   slug: string;
   name: string;
   logo_url: string | null;
-  domains: DomainMinimal[];
+  domains: Domain[];
   mail_domains: MailDomain[];
   description: string,
   reviewers_count: number;
@@ -84,37 +66,7 @@ export type CompanySearchParams = {
   state?: number;
   city?: number;
   page?: number;
-};
-
-
-export type Benefit = BenefitMinimal;
-
-export type Technology = TechnologyDetail;
-
-export type Location = {
-  id: number;
-  google_maps_url: string | null;
-  is_verified: boolean;
-  city: {
-    id: number;
-    name: string;
-    slug: string;
-    image_url: string | null;
-    state: {
-      id: number;
-      name: string;
-      slug: string;
-      image_url: string | null;
-      country: {
-        id: number;
-        name: string;
-        slug: string;
-        image_url: string | null;
-      };
-    };
-  };
-  street: string | null;
-  building: string | null;
+  page_size?: number;
 };
 
 export type MailDomain = {
@@ -128,7 +80,16 @@ export type SocialLink = {
   url: string;
 };
 
-export type CompanyDetail = {
+export type Location = {
+  id: number;
+  google_maps_url: string ;
+  is_verified: boolean;
+  city: City;
+  street: string ;
+  building: string ;
+};
+
+export type Company = {
   id: number;
   name: string;
   slug: string;
@@ -136,7 +97,7 @@ export type CompanyDetail = {
   website_url: string | null;
   description: string;
   benefits: Benefit[];
-  domains: DomainMinimal[];
+  domains: Domain[];
   technologies: Technology[];
   mail_domains: MailDomain[];
   locations: Location[];

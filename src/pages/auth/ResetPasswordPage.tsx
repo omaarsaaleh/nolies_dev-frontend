@@ -23,9 +23,9 @@ import {
 } from "@/components/ui/form";
 import { resetPassword } from "@/api/auth";
 import { VerificationError, ValidationError } from "@/api/errors";
-import { resetPasswordSchema, type ResetPasswordFormData } from "@/types/api/auth";
+import { resetPasswordSchema, type ResetPasswordFormData } from '@/api/auth';
 
-export default function ResetPassword() {
+export default function ResetPasswordPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string>("");

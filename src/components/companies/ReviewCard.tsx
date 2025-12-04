@@ -77,7 +77,7 @@ export default function ReviewCard({ review, className }: ReviewCardProps) {
                 : "Anonymous"}
             </CardTitle>
 
-            {review.work_experience && (
+            {review.show_role && review?.work_experience?.job_role && (
               <div className="text-xs text-muted-foreground mt-0.5">
                 {review.work_experience.job_role.job_title.name} •{" "}
                 {review.work_experience.job_role.seniority_level}

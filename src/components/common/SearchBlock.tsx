@@ -3,9 +3,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Search, Filter, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { ReactNode } from 'react';
+import type { KeyboardEvent, ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import Pagination from '@/components/lists/Pagination';
+import Pagination from '@/components/common/Pagination';
 
 
 interface SearchBlockProps {
@@ -27,7 +27,9 @@ interface SearchBlockProps {
 
   totalPages: number,
   currentPage: number,
-  setCurrentPage: (value: number) => void 
+  setCurrentPage: (value: number) => void,
+  showSearchButton?: boolean,
+  onSearch?: () => void
 } 
 
 export default function SearchBlock({
@@ -49,10 +51,18 @@ export default function SearchBlock({
 
   totalPages,
   currentPage,
-  setCurrentPage
+  setCurrentPage,
+  showSearchButton = false,
+  onSearch
 }  : SearchBlockProps
 ){
   
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && onSearch) {
+      event.preventDefault();
+      onSearch();
+    }
+  };
 
   let searchResultsContent ;
   if(isSearchResultsLoading){
@@ -116,14 +126,22 @@ export default function SearchBlock({
   return(
     <div className="p-6 space-y-6">
       {/* Search Bar */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder={searchPlaceHolder}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
-        />
+      <div className="mb-6 flex gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder={searchPlaceHolder}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="pl-10"
+          />
+        </div>
+        {showSearchButton && onSearch && (
+          <Button type="button" onClick={onSearch} className="shrink-0">
+            Search
+          </Button>
+        )}
       </div>
 
       {/* Collapsible Filters */}

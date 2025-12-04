@@ -6,7 +6,7 @@ import { requestPasswordReset } from "@/api/auth";
 import {
   forgetPasswordSchema,
   type ForgetPasswordFormData,
-} from "@/types/api/auth";
+} from '@/api/auth';
 import {
   Card,
   CardContent,
@@ -27,10 +27,10 @@ import {
   addErrors,
 } from "@/components/ui/form";
 import { ValidationError } from "@/api/errors";
-import { formatTime } from "@/utils/format";
+import { formatPeriod } from "@/utils/format";
 import { FORGET_PASSWORD_CONSTANTS } from "@/constants/api/auth";
 
-export default function ForgetPassword() {
+export default function ForgetPasswordPage() {
   const [formError, setFormError] = useState<string>("");
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -86,10 +86,10 @@ export default function ForgetPassword() {
                   <p className="font-medium text-foreground mb-2">Notes</p>
                   <ul className="list-disc list-inside space-y-1">
                     <li>
-                      You can request only {FORGET_PASSWORD_CONSTANTS.FORGET_PASSWORD_LIMIT_PER_WINDOW} password resets every {formatTime(FORGET_PASSWORD_CONSTANTS.FORGET_PASSWORD_LIMIT_WINDOW)}.
+                      You can request only {FORGET_PASSWORD_CONSTANTS.FORGET_PASSWORD_LIMIT_PER_WINDOW} password resets every {formatPeriod(FORGET_PASSWORD_CONSTANTS.FORGET_PASSWORD_LIMIT_WINDOW)}.
                     </li>
                     <li>
-                      You can change your password {FORGET_PASSWORD_CONSTANTS.RESET_PASSWORD_LIMIT_PER_WINDOW} {FORGET_PASSWORD_CONSTANTS.RESET_PASSWORD_LIMIT_PER_WINDOW == 1? "time" : "times"} every {formatTime(FORGET_PASSWORD_CONSTANTS.RESET_PASSWORD_LIMIT_WINDOW)}.
+                      You can change your password {FORGET_PASSWORD_CONSTANTS.RESET_PASSWORD_LIMIT_PER_WINDOW} {FORGET_PASSWORD_CONSTANTS.RESET_PASSWORD_LIMIT_PER_WINDOW == 1? "time" : "times"} every {formatPeriod(FORGET_PASSWORD_CONSTANTS.RESET_PASSWORD_LIMIT_WINDOW)}.
                     </li>
                   </ul>
                 </div>

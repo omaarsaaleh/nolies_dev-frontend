@@ -22,14 +22,15 @@ import {
   FormErrors,
   addErrors
 } from "@/components/ui/form"
-import {registerSchema, type RegisterFormData} from '@/types/api/auth';
+import {registerSchema, type RegisterFormData} from '@/api/auth';
+
 import {register} from "@/api/auth.ts";
 import {ValidationError} from "@/api/errors";
 import { useMutation } from "@tanstack/react-query"
 import { useUser } from "@/context/auth/use-user";
 
 
-export default function Signup() {
+export default function SignupPage() {
   const [formError, setFormError] = useState<string>("");
   const {refetchUser} = useUser();
   
